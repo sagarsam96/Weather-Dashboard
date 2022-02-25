@@ -5,9 +5,224 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="icon" href="http://icons.iconarchive.com/icons/iynque/ios7-style/1024/Weather-icon.png" type="image/png">
-    
+
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,900&display=swap");
+
+:root {
+	--gradient: linear-gradient(135deg, #72edf2 10%, #5151e5 100%);
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	line-height: 1.25em;
+}
+
+.clear {
+	clear:both;
+}
+
+body {
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	font-family: "Montserrat", sans-serif;
+	background-color: #343d4b;
+	/* display: -webkit-box; */
+	/* display: -ms-flexbox; */
+	display: flex;
+	/* -webkit-box-align: center; */
+	/* -ms-flex-align: center; */
+	align-items: center;
+	/* -webkit-box-pack: center; */
+	/* -ms-flex-pack: center; */
+	justify-content: center;
+}
+
+.container {
+	border-radius: 25px;
+	background-color: #222831;
+	color: #ffffff;
+	height: 400px;
+}
+
+.weather-side {
+	position: relative;
+	height: 100%;
+	border-radius: 25px;
+	background-image: url("https://images.unsplash.com/photo-1559963110-71b394e7494d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80");
+	width: 300px;
+	float: left;
+}
+
+.weather-side:hover {
+	transform: scale(1.1) perspective(300px) rotateY(10deg);
+	}
+
+.weather-gradient {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-image: var(--gradient);
+	border-radius: 25px;
+	opacity: 0.8;
+}
+
+.date-container {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+}
+
+.date-dayname {
+	margin: 0;
+}
+
+.date-day {
+	display: block;
+}
+
+.location {
+	display: inline-block;
+	margin-top: 10px;
+}
+
+.location-icon {
+	display: inline-block;
+	height: 0.8em;
+	width: auto;
+	margin-right: 5px;
+}
+
+.weather-container {
+	position: absolute;
+	bottom: 25px;
+	left: 25px;
+}
+
+.weather-icon.feather {
+	height: 60px;
+	width: auto;
+}
+
+.weather-temp {
+	margin: 0;
+	font-weight: 700;
+	font-size: 4em;
+}
+
+.weather-desc {
+	margin: 0;
+}
+
+.info-side {
+	position: relative;
+	float: left;
+	height: 100%;
+	padding-top: 25px;
+}
+
+.today-info {
+	padding: 15px;
+	margin: 0 25px 25px 25px;
+	border-radius: 10px;
+}
+
+.today-info > div:not(:last-child) {
+	margin: 0 0 10px 0;
+}
+
+.today-info > div .title {
+	float: left;
+	font-weight: 700;
+}
+
+.today-info > div .value {
+	float: right;
+}
+
+.week-list {
+	list-style-type: none;
+	padding: 0;
+	margin: 10px 35px;
+	box-shadow: 0 0 50px -5px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+}
+
+.week-list > li {
+	float: left;
+	padding: 15px;
+	cursor: pointer;
+	-o-transition: 200ms ease;
+	border-radius: 10px;
+}
+
+.week-list > li:hover {
+	transform: scale(1.1);
+	background: #fff;
+	color: #222831;
+}
+
+.week-list > li.active {
+	background: #fff;
+	color: #222831;
+	border-radius: 10px;
+}
+
+.week-list > li .day-name {
+	display: block;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+
+.week-list > li .day-icon {
+	display: block;
+	height: 30px;
+	width: auto;
+	margin: 0 auto;
+}
+
+.week-list > li .day-temp {
+	display: block;
+	text-align: center;
+	margin: 10px 0 0 0;
+	font-weight: 700;
+}
+
+.location-container {
+	padding: 25px 35px;
+}
+
+.location-button {
+	outline: none;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: none;
+	border-radius: 25px;
+	padding: 10px;
+	font-family: "Montserrat", sans-serif;
+	background-image: var(--gradient);
+	color: #ffffff;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.location-button:hover {
+	transform: scale(0.95);
+}
+
+.location-button .feather {
+	height: 1em;
+	width: auto;
+	margin-right: 5px;
+}
+</style>
 </head>
 <body>
     
@@ -53,6 +268,75 @@
     </div>
   </div>
 
-  <script src="app.js" defer></script>
+  <script >
+	  const dayName = document.getElementById("date-dayname");
+const dayDate = document.getElementById("date-day");
+const locate= document.getElementById("locate");
+const day1 = document.getElementById("day1");
+const day2 = document.getElementById("day2");
+const day3 = document.getElementById("day3");
+const day4 = document.getElementById("day4");
+
+
+
+ var d = new Date();
+ var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+ var monthNames= ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decmber'];
+ 
+ const body= document.querySelector("body");
+//  body.style.background= "white"; 
+
+
+dayName.innerHTML= dayNames[d.getDay()];
+day1.innerHTML= dayNames[d.getDay()+1];
+day2.innerHTML= dayNames[d.getDay()+2];
+day3.innerHTML= dayNames[d.getDay()-4];
+day4.innerHTML= dayNames[d.getDay()-3];
+
+dayDate.innerHTML= d.getDate()+" "+monthNames[d.getMonth()]+" "+d.getUTCFullYear();
+
+var time = d.getHours();
+
+if( time>6 && time<17){
+  body.style.background= "white";
+}else if(time>17 && time<19){
+  body.style.background= "gray";
+}else{
+  body.style.background= "black";
+}
+
+const button = document.getElementById("btn");
+const temp = document.getElementById("temp");
+const desc = document.getElementById("desc");
+const windValue = document.getElementById("windValue");
+const city = document.getElementById("locate");
+const humy = document.getElementById("humy");
+const visy = document.getElementById("visy");
+
+let lat, long;
+fetch("http://ipwhois.app/json/").then(response=> response.json())
+  .then(data =>{ 
+     lat = data.latitude;
+      long = data.longitude;
+
+      console.log(lat, long);
+    })
+
+button.addEventListener('click', function(){
+fetch(
+    "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+long+"&exclude={part}&appid=a21b44f10caded6f1933142df5da47be")
+    .then(response1=>response1.json())
+    .then(data1=> {
+      temp.innerHTML=(((data1.main.temp)-273.25).toFixed(1))+"°C";
+      city.innerHTML= data1.name;
+      windValue.innerHTML=data1.wind.speed+" m/s";
+      desc.innerHTML= data1.weather[0].description;
+      humy.innerHTML= data1.main.humidity+" %";
+      visy.innerHTML= data1.visibility+" m";
+      console.log(data1.visibility);
+    })
+  
+})
+  </script>
 </body>
 </html>
